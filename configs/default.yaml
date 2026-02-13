@@ -1,0 +1,76 @@
+# Default configuration for hierarchical attention reconciliation retail forecasting
+
+data:
+  sequence_length: 28
+  prediction_length: 28
+  batch_size: 32
+  num_workers: 4
+  train_split: 0.7
+  val_split: 0.15
+  # Hierarchy levels: store -> department -> category -> item
+  hierarchy_levels:
+    - store
+    - department
+    - category
+    - item
+
+model:
+  # Attention mechanism
+  attention_hidden_dim: 128
+  attention_heads: 8
+  attention_dropout: 0.1
+
+  # Feature extraction
+  feature_dim: 256
+  num_encoder_layers: 3
+  num_decoder_layers: 2
+
+  # Reconciliation
+  reconciliation_hidden_dim: 128
+  learnable_reconciliation: true
+  reconciliation_method: neural  # 'neural', 'bottom_up', 'top_down'
+
+  # Output
+  output_dim: 1
+  quantiles: [0.05, 0.25, 0.5, 0.75, 0.95]
+
+training:
+  epochs: 100
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  gradient_clip: 1.0
+
+  # Learning rate scheduling
+  scheduler: cosine  # 'cosine', 'step', 'plateau'
+  warmup_epochs: 5
+  min_lr: 0.000001
+
+  # Early stopping
+  early_stopping: true
+  patience: 15
+
+  # Loss weights
+  coherence_weight: 0.3
+  quantile_weight: 0.7
+
+  # Optimization
+  mixed_precision: true
+  accumulation_steps: 1
+
+evaluation:
+  metrics:
+    - WRMSSE
+    - hierarchy_coherence_violation
+    - coverage_50
+    - coverage_90
+    - RMSE
+    - MAE
+
+  # Analysis
+  save_predictions: true
+  generate_plots: true
+  plot_samples: 10
+
+reproducibility:
+  seed: 42
+  deterministic: true

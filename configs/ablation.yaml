@@ -1,0 +1,71 @@
+# Ablation study: baseline without learnable reconciliation
+
+data:
+  sequence_length: 28
+  prediction_length: 28
+  batch_size: 32
+  num_workers: 4
+  train_split: 0.7
+  val_split: 0.15
+  hierarchy_levels:
+    - store
+    - department
+    - category
+    - item
+
+model:
+  # Attention mechanism
+  attention_hidden_dim: 128
+  attention_heads: 8
+  attention_dropout: 0.1
+
+  # Feature extraction
+  feature_dim: 256
+  num_encoder_layers: 3
+  num_decoder_layers: 2
+
+  # Reconciliation - ABLATION: Use traditional bottom-up instead of neural
+  reconciliation_hidden_dim: 128
+  learnable_reconciliation: false
+  reconciliation_method: bottom_up  # Traditional method
+
+  # Output
+  output_dim: 1
+  quantiles: [0.05, 0.25, 0.5, 0.75, 0.95]
+
+training:
+  epochs: 100
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  gradient_clip: 1.0
+
+  scheduler: cosine
+  warmup_epochs: 5
+  min_lr: 0.000001
+
+  early_stopping: true
+  patience: 15
+
+  # ABLATION: No coherence loss with traditional reconciliation
+  coherence_weight: 0.0
+  quantile_weight: 1.0
+
+  mixed_precision: true
+  accumulation_steps: 1
+
+evaluation:
+  metrics:
+    - WRMSSE
+    - hierarchy_coherence_violation
+    - coverage_50
+    - coverage_90
+    - RMSE
+    - MAE
+
+  save_predictions: true
+  generate_plots: true
+  plot_samples: 10
+
+reproducibility:
+  seed: 42
+  deterministic: true
