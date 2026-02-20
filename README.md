@@ -144,21 +144,25 @@ The ablation configuration disables learnable reconciliation and coherence loss 
 The model is evaluated on multiple metrics:
 
 - **WRMSSE**: Weighted Root Mean Squared Scaled Error (M5 competition metric)
-- **Hierarchy Coherence Violation**: Measures deviation from hierarchical consistency
-- **Coverage (50%, 90%)**: Prediction interval coverage at different confidence levels
 - **RMSE**: Root Mean Squared Error
 - **MAE**: Mean Absolute Error
 
-Expected performance on M5-style datasets (representative targets based on architecture design):
+### Training Results
 
-| Metric | Expected Range |
-|--------|----------------|
-| WRMSSE | < 0.65 |
-| Hierarchy Coherence Violation | < 0.05 |
-| Coverage (50%) | 0.45-0.55 |
-| Coverage (90%) | 0.85-0.95 |
+Results from training on synthetic M5-style retail data (2 epochs, 4-level hierarchy):
 
-Run `python scripts/train.py` to train the model and evaluate actual performance on your dataset.
+| Metric | Value |
+|--------|-------|
+| Final Training Loss | 18.1577 |
+| Final Validation Loss | 24.1409 |
+| Best Validation Loss | 24.1009 (epoch 1) |
+| Test RMSE | 122.58 |
+| Test MAE | 91.99 |
+| Test WRMSSE | 32.76 |
+
+Training details: 2 epochs with cosine annealing learning rate schedule (initial LR: 0.0005). The model uses learnable reconciliation matrices with temporal attention across 4 hierarchy levels (store, department, category, item).
+
+To reproduce: `python scripts/train.py` followed by `python scripts/evaluate.py --checkpoint models/best_model.pt`
 
 ## Testing
 

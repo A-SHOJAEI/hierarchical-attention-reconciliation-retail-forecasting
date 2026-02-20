@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+*.pyc
 .Python
 build/
 develop-eggs/
@@ -24,7 +25,7 @@ wheels/
 venv/
 env/
 ENV/
-.env
+.venv/
 
 # IDEs
 .vscode/
@@ -40,49 +41,45 @@ htmlcov/
 .tox/
 
 # Data
-data/raw/
-data/processed/
+data/
 *.csv
 *.parquet
 *.h5
 
 # Models
-models/
-checkpoints/
-*.pth
-*.pt
+models/*.pt
+models/*.pth
+checkpoints/*.pth
+checkpoints/*.pt
 *.ckpt
 
 # MLflow
 mlruns/
 mlartifacts/
+mlflow.db
 
-# Results
-results/
-*.png
-*.jpg
-*.pdf
+# Results - track results.json but exclude generated artifacts
+results/*.png
+results/*.jpg
+results/*.pdf
+results/*.npz
 
 # Logs
 *.log
 logs/
 
+# Environment
+.env
+.env.local
+
 # OS
 .DS_Store
 Thumbs.db
 
-
-# Auto-added by publisher
-# Training artifacts (auto-added by publisher)
+# Other artifacts
 *.pkl
 *.onnx
 *.bin
 *.safetensors
 wandb/
-mlflow.db
-data/*.arrow
-data/*.parquet
-data/*.h5
-data/*.hdf5
 outputs/
-.venv/

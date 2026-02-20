@@ -1,0 +1,22 @@
+{
+  "experiment": "hierarchical-attention-reconciliation-retail-forecasting",
+  "training": {
+    "num_epochs": 2,
+    "final_train_loss": 18.1577,
+    "final_val_loss": 24.1409,
+    "best_val_loss": 24.1009,
+    "best_epoch": 1,
+    "learning_rate_schedule": "cosine_annealing",
+    "initial_learning_rate": 0.0005
+  },
+  "evaluation": {
+    "RMSE": 122.5791,
+    "MAE": 91.9892,
+    "WRMSSE": 32.7635
+  },
+  "training_history": {
+    "train_loss": [23.5546, 18.1577],
+    "val_loss": [24.1009, 24.1409]
+  },
+  "notes": "Trained for 2 epochs on synthetic M5-style retail data with 4-level hierarchy (store, department, category, item). Model uses learnable reconciliation matrices with temporal attention."
+}
